@@ -26,12 +26,14 @@
         gap: 8px;
       }
       .Sizer--showPixels .Sizer__pixels {
-        display: block;
+        display: flex;
       }
       .Sizer--showPixels .Sizer__presets {
         display: none;
       }
       .Sizer__pixels {
+        align-items: center;
+        gap: 8px;
         display: none;
       }
       .Sizer__pixelsRange {
@@ -110,7 +112,7 @@
             sizer.classList.add("Sizer--showPixels");
 
             sizerPixelRange.value = initialValue;
-            sizerPixelRangeValue.textContent = `${initialValue}px}`;
+            sizerPixelRangeValue.textContent = `${initialValue}px`;
             document.body.style.setProperty(
               "--icon-size",
               `${initialValue}px}`
