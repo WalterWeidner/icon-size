@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-    <link href="/css/solid.css" rel="stylesheet" />
-    <link href="/css/fontawesome.css" rel="stylesheet" />
+    <link href="css/solid.css" rel="stylesheet" />
+    <link href="css/fontawesome.css" rel="stylesheet" />
     <base href="/icon-size" />
     <style>
       :root {
@@ -74,7 +74,7 @@
 
     <script type="text/javascript">
       async function loadMetadata() {
-        const response = await fetch("/metadata/icons.json");
+        const response = await fetch("metadata/icons.json");
         const metadata = await response.json();
 
         const iconsElement = document.getElementById("icons");
