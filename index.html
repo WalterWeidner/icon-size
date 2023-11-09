@@ -1,0 +1,116 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link href="/css/solid.css" rel="stylesheet" />
+    <link href="/css/fontawesome.css" rel="stylesheet" />
+
+    <style>
+      :root {
+        --icon-size: 24px;
+      }
+      label {
+        display: block;
+      }
+      .controls {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 1;
+        align-items: center;
+      }
+      .sizer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sizer-range {
+        width: 400px;
+      }
+      .icons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 16px;
+      }
+      .svg-icon {
+        height: var(--icon-size);
+      }
+      .font-icon {
+        font-size: var(--icon-size);
+        justify-self: end;
+      }
+      .font-icon-heading {
+        justify-self: end;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="controls">
+        <label for="iconSizeRange">Icon Size</label>
+        <div class="sizer">
+          <input
+            class="sizer-range"
+            id="iconSizeRange"
+            max="250"
+            min="0"
+            type="range"
+            value="24"
+          />
+          <span id="sizer-range-value"></span>
+        </div>
+      </div>
+      <dive class="icons" id="icons">
+        <h2 class="font-icon-heading">Font</h2>
+        <h2 class="svg-icon-heading">SVG</h2>
+      </dive>
+    </main>
+
+    <datalist>
+      <option value=""></option>
+    </datalist>
+
+    <script type="text/javascript">
+      async function loadMetadata() {
+        const response = await fetch("/metadata/icons.json");
+        const metadata = await response.json();
+
+        const iconsElement = document.getElementById("icons");
+
+        Object.entries(metadata).forEach(([key, icon]) => {
+          if (icon.styles?.includes("solid")) {
+            const iElement = document.createElement("i");
+            iElement.classList.add("font-icon", "fa-solid", `fa-${key}`);
+            iconsElement.appendChild(iElement);
+
+            const range = document.createRange();
+            const fragment = range.createContextualFragment(icon.svg.solid.raw);
+            fragment.children[0].classList.add("svg-icon");
+            iconsElement.appendChild(fragment);
+          }
+        });
+      }
+
+      const initialValue = "24px";
+
+      document.body.style.setProperty("--icon-size", initialValue);
+      document.getElementById("sizer-range-value").textContent = initialValue;
+
+      document
+        .getElementById("iconSizeRange")
+        .addEventListener("change", (event) => {
+          const value = `${event.target.value}px`;
+
+          document.getElementById("sizer-range-value").textContent = value;
+
+          document.body.style.setProperty(
+            "--icon-size",
+            `${event.target.value}px`
+          );
+        });
+      loadMetadata();
+    </script>
+  </body>
+</html>
